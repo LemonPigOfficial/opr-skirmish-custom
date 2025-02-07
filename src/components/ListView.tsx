@@ -65,7 +65,7 @@ function UnitView({ unit }: { unit: Unit }) {
       <Accordion defaultExpanded disableGutters>
         <AccordionSummary expandIcon={<KeyboardArrowUpIcon />}>
           <Typography fontWeight="bold" flex={1}>
-            {unit.name} [{unit.size}]
+            {unit.name} <span style={{ fontWeight: 400 }}>[{unit.size}]</span>
           </Typography>
           <Typography>{unit.cost}pts</Typography>
         </AccordionSummary>
