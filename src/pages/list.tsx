@@ -1,7 +1,6 @@
 "use client";
 import Head from "next/head";
 import { CircularProgress, Container, ThemeProvider } from "@mui/material";
-import ShareListLoader from "@/components/ShareListLoader";
 import ListView from "@/components/ListView";
 import { theme } from "@/theme";
 import MultiplierSelector from "@/components/MultiplierSelector";

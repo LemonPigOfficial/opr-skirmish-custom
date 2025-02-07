@@ -1,6 +1,6 @@
 "use client";
 import Head from "next/head";
-import { Container, ThemeProvider } from "@mui/material";
+import { Container, Stack, ThemeProvider, Typography } from "@mui/material";
 import ShareListLoader from "@/components/ShareListLoader";
 import { theme } from "@/theme";
 
@@ -15,6 +15,17 @@ export default function Home() {
       </Head>
       <ThemeProvider theme={theme}>
         <Container sx={{ pt: 2 }}>
+          <Stack sx={{ mb: 2 }} spacing={1}>
+            <Typography variant="h5">OPR GFF/AoFS Beefy Mode!</Typography>
+            <Typography>
+              Welcome! This is a super simple lightweight app that will take your Army Forge list,
+              and multiply all of the attacks and toughness by 1-3x.
+            </Typography>
+            <Typography>
+              Start by entering the "Share by link" URL from Army Forge in the box below, and hit
+              "Start" to view the modified list.
+            </Typography>
+          </Stack>
           <ShareListLoader />
         </Container>
       </ThemeProvider>
