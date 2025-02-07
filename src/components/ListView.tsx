@@ -33,8 +33,12 @@ export default function ListView() {
 }
 
 function UnitView({ unit }: { unit: Unit }) {
-  const { armyBooks, multiplier } = useAppStore(
-    useShallow((state) => ({ armyBooks: state.armyBooks, multiplier: state.multiplier }))
+  const { armyBooks, attackMultiplier, toughMultiplier } = useAppStore(
+    useShallow((state) => ({
+      armyBooks: state.armyBooks,
+      attackMultiplier: state.attackMultiplier,
+      toughMultiplier: state.toughMultiplier,
+    }))
   );
   const armyBook = armyBooks.find((x) => x.uid === unit.armyId);
   const tough = unit.rules.find((x) => x.name === "Tough");
@@ -65,7 +69,7 @@ function UnitView({ unit }: { unit: Unit }) {
               <StatTile label="Def" value={`${unit.defense}+`} icon={mdiShield} />
               <StatTile
                 label="Tough"
-                value={(tough?.rating * multiplier || multiplier).toString()}
+                value={(tough?.rating * toughMultiplier || toughMultiplier).toString()}
                 icon={mdiWater}
               />
             </Stack>
@@ -88,7 +92,7 @@ function UnitView({ unit }: { unit: Unit }) {
                   <span style={{ fontWeight: "bold" }}>
                     {x.name} ({x.threshold}):{" "}
                   </span>{" "}
-                  {transformRuleText(x.effect, multiplier)}
+                  {transformRuleText(x.effect, attackMultiplier)}
                 </Typography>
               ))}
             </Box>
@@ -123,12 +127,12 @@ function LoadoutItemDisplay({ entry }: { entry: LoadoutEntry }) {
 }
 
 function WeaponDisplay({ entry }: { entry: LoadoutEntry }) {
-  const multiplier = useAppStore(useShallow((state) => state.multiplier));
+  const attackMultiplier = useAppStore(useShallow((state) => state.attackMultiplier));
   const hasRules = entry.specialRules?.length > 0;
   return (
     <Typography>
       <Typography variant="caption">{entry.count || 1}x</Typography> {entry.name} (
-      {entry.range > 0 && `${entry.range}", `}A{entry.attacks * multiplier}
+      {entry.range > 0 && `${entry.range}", `}A{entry.attacks * attackMultiplier}
       {hasRules && ", "}
       <RuleList specialRules={entry.specialRules} />)
     </Typography>
