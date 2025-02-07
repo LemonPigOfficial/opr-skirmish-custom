@@ -24,25 +24,28 @@ function UnitView({ unit }: { unit: Unit }) {
 
   return (
     <Card sx={{ mb: 2 }}>
-      <CardContent>
-        <Typography>
+      <Box sx={{ p: 2 }}>
+        <Typography fontWeight="bold">
           {unit.name} [{unit.size}]
         </Typography>
-        <Divider sx={{ mb: 2, mt: 1 }} />
-        <RuleList unit={unit} specialRules={unit.rules.filter((x) => x.name !== "Tough")} />
-        <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
+        <Divider sx={{ mb: 1, mt: 0.5 }} />
+
+        <Stack direction="row" spacing={2} sx={{ mt: 1 }}>
           <Stack spacing={1}>
             <StatTile label="Quality" value={`${unit.quality}+`} />
             <StatTile label="Defense" value={`${unit.defense}+`} />
             <StatTile label="Tough" value={(tough?.rating * 3 || 3).toString()} />
           </Stack>
           <Stack>
+            <Box mb={1}>
+              <RuleList unit={unit} specialRules={unit.rules.filter((x) => x.name !== "Tough")} />
+            </Box>
             {orderBy(unit.loadout, "type", "desc").map((x, i) => (
               <LoadoutItemDisplay key={i} entry={x} />
             ))}
           </Stack>
         </Stack>
-      </CardContent>
+      </Box>
     </Card>
   );
 }
@@ -64,20 +67,15 @@ function LoadoutItemDisplay({ entry }: { entry: LoadoutEntry }) {
       </>
     );
   }
-
-  return (
-    <Typography>
-      {entry.count || 1}x {entry.name} ({entry.range > 0 && `${entry.range}", `}A{entry.attacks * 3}
-      )
-    </Typography>
-  );
 }
 
 function WeaponDisplay({ entry }: { entry: LoadoutEntry }) {
+  const hasRules = entry.specialRules?.length > 0;
   return (
     <Typography>
       {entry.count || 1}x {entry.name} ({entry.range > 0 && `${entry.range}", `}A{entry.attacks * 3}
-      )
+      {hasRules && ", "}
+      <RuleList specialRules={entry.specialRules} />)
     </Typography>
   );
 }
