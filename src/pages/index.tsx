@@ -1,20 +1,11 @@
 "use client";
 import Head from "next/head";
-import { Card, CardContent, Container, ThemeProvider } from "@mui/material";
-import { useShallow } from "zustand/shallow";
-import { useAppStore } from "@/services/store";
+import { Container, ThemeProvider } from "@mui/material";
 import ShareListLoader from "@/components/ShareListLoader";
 import ListView from "@/components/ListView";
 import { theme } from "@/theme";
 
 export default function Home() {
-  const store = useAppStore(
-    useShallow((state) => ({
-      listResponse: state.listResponse,
-      setListResponse: state.setListResponse,
-    }))
-  );
-
   return (
     <>
       <Head>

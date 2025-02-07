@@ -14,6 +14,8 @@ import { useShallow } from "zustand/shallow";
 import RuleList from "./RuleList";
 import { orderBy } from "lodash";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import Icon from "@mdi/react";
+import { mdiShield, mdiWater, mdiSword } from "@mdi/js";
 
 export default function ListView() {
   const { listResponse: list } = useAppStore(useShallow((state) => state));
@@ -44,9 +46,9 @@ function UnitView({ unit }: { unit: Unit }) {
         <AccordionDetails sx={{ pt: 0 }}>
           <Stack spacing={1}>
             <Stack spacing={1} direction="row">
-              <StatTile label="Quality" value={`${unit.quality}+`} />
-              <StatTile label="Defense" value={`${unit.defense}+`} />
-              <StatTile label="Tough" value={(tough?.rating * 3 || 3).toString()} />
+              <StatTile label="Qua" value={`${unit.quality}+`} icon={mdiSword} />
+              <StatTile label="Def" value={`${unit.defense}+`} icon={mdiShield} />
+              <StatTile label="Tough" value={(tough?.rating * 3 || 3).toString()} icon={mdiWater} />
             </Stack>
             <Stack>
               <Box mb={1}>
@@ -86,30 +88,40 @@ function WeaponDisplay({ entry }: { entry: LoadoutEntry }) {
   const hasRules = entry.specialRules?.length > 0;
   return (
     <Typography>
-      <Typography variant="caption">{entry.count || 1}x</Typography> {entry.name} ({entry.range > 0 && `${entry.range}", `}A{entry.attacks * 3}
+      <Typography variant="caption">{entry.count || 1}x</Typography> {entry.name} (
+      {entry.range > 0 && `${entry.range}", `}A{entry.attacks * 3}
       {hasRules && ", "}
       <RuleList specialRules={entry.specialRules} />)
     </Typography>
   );
 }
 
-function StatTile({ label, value }: { label: string; value: string }) {
+function StatTile({ label, value, icon }: { label: string; value: string; icon: any }) {
   return (
     <div
       style={{
-        padding: "2px 8px",
+        padding: "0 8px",
         textAlign: "center",
         border: "1px solid grey",
         borderRadius: "4px",
         flex: 1,
       }}
     >
-      <div style={{ textAlign: "center" }}>
+      <Stack direction="row" alignItems="center">
+        <Icon path={icon} size={0.8} color="grey" />
+        <Typography textAlign="left" sx={{ flex: 1 }}>
+          {label}
+        </Typography>
+        <Typography fontSize={24} fontWeight="bold">
+          {value}
+        </Typography>
+      </Stack>
+      {/* <div style={{ textAlign: "center" }}>
         <p>{label}</p>
       </div>
       <div style={{ fontSize: "24px", fontWeight: "bold" }}>
         <p>{value}</p>
-      </div>
+      </div> */}
     </div>
   );
 }
