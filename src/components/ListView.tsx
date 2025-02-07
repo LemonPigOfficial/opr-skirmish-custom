@@ -1,9 +1,19 @@
 import { LoadoutEntry, Unit } from "@/services/interfaces";
 import { useAppStore } from "@/services/store";
-import { Box, Card, CardContent, Divider, Grid, Stack, Typography } from "@mui/material";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Box,
+  Card,
+  Grid,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { useShallow } from "zustand/shallow";
 import RuleList from "./RuleList";
 import { orderBy } from "lodash";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 
 export default function ListView() {
   const { listResponse: list } = useAppStore(useShallow((state) => state));
@@ -24,28 +34,31 @@ function UnitView({ unit }: { unit: Unit }) {
 
   return (
     <Card sx={{ mb: 2 }}>
-      <Box sx={{ p: 2 }}>
-        <Typography fontWeight="bold">
-          {unit.name} [{unit.size}]
-        </Typography>
-        <Divider sx={{ mb: 1, mt: 0.5 }} />
+      <Accordion defaultExpanded disableGutters>
+        <AccordionSummary expandIcon={<KeyboardArrowUpIcon />}>
+          <Typography fontWeight="bold">
+            {unit.name} [{unit.size}]
+          </Typography>
+        </AccordionSummary>
 
-        <Stack spacing={1} sx={{ mt: 1 }}>
-          <Stack spacing={1} direction="row">
-            <StatTile label="Quality" value={`${unit.quality}+`} />
-            <StatTile label="Defense" value={`${unit.defense}+`} />
-            <StatTile label="Tough" value={(tough?.rating * 3 || 3).toString()} />
+        <AccordionDetails sx={{ pt: 0 }}>
+          <Stack spacing={1}>
+            <Stack spacing={1} direction="row">
+              <StatTile label="Quality" value={`${unit.quality}+`} />
+              <StatTile label="Defense" value={`${unit.defense}+`} />
+              <StatTile label="Tough" value={(tough?.rating * 3 || 3).toString()} />
+            </Stack>
+            <Stack>
+              <Box mb={1}>
+                <RuleList unit={unit} specialRules={unit.rules.filter((x) => x.name !== "Tough")} />
+              </Box>
+              {orderBy(unit.loadout, "type", "desc").map((x, i) => (
+                <LoadoutItemDisplay key={i} entry={x} />
+              ))}
+            </Stack>
           </Stack>
-          <Stack>
-            <Box mb={1}>
-              <RuleList unit={unit} specialRules={unit.rules.filter((x) => x.name !== "Tough")} />
-            </Box>
-            {orderBy(unit.loadout, "type", "desc").map((x, i) => (
-              <LoadoutItemDisplay key={i} entry={x} />
-            ))}
-          </Stack>
-        </Stack>
-      </Box>
+        </AccordionDetails>
+      </Accordion>
     </Card>
   );
 }
@@ -73,7 +86,7 @@ function WeaponDisplay({ entry }: { entry: LoadoutEntry }) {
   const hasRules = entry.specialRules?.length > 0;
   return (
     <Typography>
-      {entry.count || 1}x {entry.name} ({entry.range > 0 && `${entry.range}", `}A{entry.attacks * 3}
+      <Typography variant="caption">{entry.count || 1}x</Typography> {entry.name} ({entry.range > 0 && `${entry.range}", `}A{entry.attacks * 3}
       {hasRules && ", "}
       <RuleList specialRules={entry.specialRules} />)
     </Typography>

@@ -1,10 +1,11 @@
 "use client";
 import Head from "next/head";
-import { Card, CardContent, Container } from "@mui/material";
+import { Card, CardContent, Container, ThemeProvider } from "@mui/material";
 import { useShallow } from "zustand/shallow";
 import { useAppStore } from "@/services/store";
 import ShareListLoader from "@/components/ShareListLoader";
 import ListView from "@/components/ListView";
+import { theme } from "@/theme";
 
 export default function Home() {
   const store = useAppStore(
@@ -22,10 +23,12 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Container sx={{ pt: 2 }}>
-        <ShareListLoader />
-        <ListView />
-      </Container>
+      <ThemeProvider theme={theme}>
+        <Container sx={{ pt: 2 }}>
+          <ShareListLoader />
+          <ListView />
+        </Container>
+      </ThemeProvider>
     </>
   );
 }

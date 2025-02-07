@@ -7,6 +7,7 @@ export interface ListApiResponse {
 export type Unit = {
   armyId: string;
   name: string;
+  customName: string;
   id: string;
   selectionId: string;
   joinToUnit: string | null;
