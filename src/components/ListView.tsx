@@ -30,8 +30,8 @@ function UnitView({ unit }: { unit: Unit }) {
         </Typography>
         <Divider sx={{ mb: 1, mt: 0.5 }} />
 
-        <Stack direction="row" spacing={2} sx={{ mt: 1 }}>
-          <Stack spacing={1}>
+        <Stack spacing={1} sx={{ mt: 1 }}>
+          <Stack spacing={1} direction="row">
             <StatTile label="Quality" value={`${unit.quality}+`} />
             <StatTile label="Defense" value={`${unit.defense}+`} />
             <StatTile label="Tough" value={(tough?.rating * 3 || 3).toString()} />
@@ -88,6 +88,7 @@ function StatTile({ label, value }: { label: string; value: string }) {
         textAlign: "center",
         border: "1px solid grey",
         borderRadius: "4px",
+        flex: 1,
       }}
     >
       <div style={{ textAlign: "center" }}>
