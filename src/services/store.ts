@@ -9,6 +9,8 @@ export interface Store {
   setArmyBooks: (armyBooks: ArmyBook[]) => void;
   rules: SpecialRuleDefinition[];
   setRules: (rules: SpecialRuleDefinition[]) => void;
+  multiplier: number;
+  setMultiplier: (value: number) => void;
 }
 
 export function createStore() {
@@ -19,6 +21,8 @@ export function createStore() {
     setArmyBooks: (armyBooks: ArmyBook[]) => set(() => ({ armyBooks }), undefined, "setArmyBooks"),
     rules: [],
     setRules: (rules: SpecialRuleDefinition[]) => set(() => ({ rules }), undefined, "setRules"),
+    multiplier: 3,
+    setMultiplier: (value: number) => set(() => ({ multiplier: value }), undefined, "setMultiplier"),
   })));
 }
 

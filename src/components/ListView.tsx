@@ -33,7 +33,9 @@ export default function ListView() {
 }
 
 function UnitView({ unit }: { unit: Unit }) {
-  const armyBooks = useAppStore(useShallow((state) => state.armyBooks));
+  const { armyBooks, multiplier } = useAppStore(
+    useShallow((state) => ({ armyBooks: state.armyBooks, multiplier: state.multiplier }))
+  );
   const armyBook = armyBooks.find((x) => x.uid === unit.armyId);
   const tough = unit.rules.find((x) => x.name === "Tough");
   const upgradeRules = unit.selectedUpgrades
@@ -61,7 +63,11 @@ function UnitView({ unit }: { unit: Unit }) {
             <Stack spacing={1} direction="row">
               <StatTile label="Qua" value={`${unit.quality}+`} icon={mdiSword} />
               <StatTile label="Def" value={`${unit.defense}+`} icon={mdiShield} />
-              <StatTile label="Tough" value={(tough?.rating * 3 || 3).toString()} icon={mdiWater} />
+              <StatTile
+                label="Tough"
+                value={(tough?.rating * multiplier || multiplier).toString()}
+                icon={mdiWater}
+              />
             </Stack>
             <Stack>
               <Box mb={1}>
@@ -82,7 +88,7 @@ function UnitView({ unit }: { unit: Unit }) {
                   <span style={{ fontWeight: "bold" }}>
                     {x.name} ({x.threshold}):{" "}
                   </span>{" "}
-                  {transformRuleText(x.effect)}
+                  {transformRuleText(x.effect, multiplier)}
                 </Typography>
               ))}
             </Box>
@@ -117,11 +123,12 @@ function LoadoutItemDisplay({ entry }: { entry: LoadoutEntry }) {
 }
 
 function WeaponDisplay({ entry }: { entry: LoadoutEntry }) {
+  const multiplier = useAppStore(useShallow((state) => state.multiplier));
   const hasRules = entry.specialRules?.length > 0;
   return (
     <Typography>
       <Typography variant="caption">{entry.count || 1}x</Typography> {entry.name} (
-      {entry.range > 0 && `${entry.range}", `}A{entry.attacks * 3}
+      {entry.range > 0 && `${entry.range}", `}A{entry.attacks * multiplier}
       {hasRules && ", "}
       <RuleList specialRules={entry.specialRules} />)
     </Typography>
