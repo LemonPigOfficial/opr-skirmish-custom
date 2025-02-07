@@ -58,7 +58,7 @@ function LoadoutItemDisplay({ entry }: { entry: LoadoutEntry }) {
   if (entry.type === "ArmyBookItem") {
     return (
       <>
-        <Typography>{entry.name}</Typography>
+        <Typography variant="body2">{entry.name}:</Typography>
         {entry.content.map((x, i) => (
           <Box key={i} sx={{ pl: 2 }}>
             <LoadoutItemDisplay entry={x} />
