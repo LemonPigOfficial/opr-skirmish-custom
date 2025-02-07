@@ -11,6 +11,8 @@ interface RuleListProps {
   specialRules: SpecialRule[];
 }
 
+const attackRules = ["Impact"];
+
 export default function RuleList({ unit, specialRules }: RuleListProps) {
   const { rules, listResponse, attackMultiplier } = useAppStore(useShallow((state) => state));
   const ruleDefinitions = rules.concat(listResponse?.specialRules ?? []).map((x) => ({
@@ -29,11 +31,14 @@ export default function RuleList({ unit, specialRules }: RuleListProps) {
           (r) => /(.+?)(?:\(|$)/.exec(r.name)?.[0] === rule.name
         )[0];
 
-        let name = rule.name;
+        const name = rule.name;
+        const rating = attackRules.includes(rule.name)
+          ? rule.rating * attackMultiplier
+          : rule.rating;
 
         const label = `${
           unit && rule.count && rule.count !== unit.size ? `${rule.count}x ` : ""
-        }${name}${rule.rating ? `(${rule.rating})` : ""}`;
+        }${name}${rating ? `(${rating})` : ""}`;
 
         const description =
           (rule.rating ? `${name}(X)` : name) +
