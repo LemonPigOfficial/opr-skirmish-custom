@@ -41,13 +41,21 @@ function UnitView({ unit }: { unit: Unit }) {
     }))
   );
   const armyBook = armyBooks.find((x) => x.uid === unit.armyId);
-  const tough = unit.rules.find((x) => x.name === "Tough");
+  const loadoutRules = unit.loadout
+    .flatMap((x) => x.content || x)
+    .filter((x) => x.type === "ArmyBookRule");
   const upgradeRules = unit.selectedUpgrades
     .flatMap((x) => x.option.gains)
     .filter((x) => x.type === "ArmyBookRule");
+
+  const tough = unit.rules
+    .concat(loadoutRules)
+    .filter((x) => x.name === "Tough")
+    .reduce((curr, next) => curr + next?.rating || 0, 0);
+
   const isCaster = unit.rules
     .concat(upgradeRules)
-    .concat(unit.loadout.flatMap((x) => x.content || x).filter((x) => x.type === "ArmyBookRule"))
+    .concat(loadoutRules)
     .some((x) => x.name === "Caster");
 
   const spells = isCaster && armyBook?.spells;
@@ -69,7 +77,7 @@ function UnitView({ unit }: { unit: Unit }) {
               <StatTile label="Def" value={`${unit.defense}+`} icon={mdiShield} />
               <StatTile
                 label="Tough"
-                value={(tough?.rating * toughMultiplier || toughMultiplier).toString()}
+                value={(tough * toughMultiplier || toughMultiplier).toString()}
                 icon={mdiWater}
               />
             </Stack>
