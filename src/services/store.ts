@@ -13,6 +13,8 @@ export interface Store {
   setAttackMultiplier: (value: number) => void;
   toughMultiplier: number;
   setToughMultiplier: (value: number) => void;
+  loading: boolean;
+  setLoading: (value: boolean) => void;
 }
 
 export function createStore() {
@@ -27,6 +29,8 @@ export function createStore() {
     setAttackMultiplier: (value: number) => set(() => ({ attackMultiplier: value }), undefined, "setMultiplier"),
     toughMultiplier: 3,
     setToughMultiplier: (value: number) => set(() => ({ toughMultiplier: value }), undefined, "setToughMultiplier"),
+    loading: false,
+    setLoading: (value: boolean) => set(() => ({ loading: value }), undefined, "setLoading"),
   })));
 }
 

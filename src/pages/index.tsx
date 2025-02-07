@@ -2,9 +2,7 @@
 import Head from "next/head";
 import { Container, ThemeProvider } from "@mui/material";
 import ShareListLoader from "@/components/ShareListLoader";
-import ListView from "@/components/ListView";
 import { theme } from "@/theme";
-import MultiplierSelector from "@/components/MultiplierSelector";
 
 export default function Home() {
   return (
@@ -18,8 +16,6 @@ export default function Home() {
       <ThemeProvider theme={theme}>
         <Container sx={{ pt: 2 }}>
           <ShareListLoader />
-          <MultiplierSelector />
-          <ListView />
         </Container>
       </ThemeProvider>
     </>
