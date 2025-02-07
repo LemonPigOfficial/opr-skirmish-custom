@@ -2,7 +2,7 @@ export interface ListApiResponse {
   gameSystem: string;
   units: Unit[];
   specialRules: SpecialRuleDefinition[];
-}
+};
 
 export type Unit = {
   armyId: string;
@@ -17,6 +17,7 @@ export type Unit = {
   size: number;
   loadout: LoadoutEntry[];
   rules: SpecialRule[];
+  selectedUpgrades: Upgrade[];
 };
 
 export type LoadoutEntry = {
@@ -28,7 +29,15 @@ export type LoadoutEntry = {
   range: number;
   attacks: number;
   content: LoadoutEntry[];
-}
+};
+
+export type Upgrade = {
+  option: UpgradeOption;
+};
+
+export type UpgradeOption = {
+  gains: LoadoutEntry[];
+};
 
 export type ArmyBook = {
 
@@ -37,7 +46,7 @@ export type ArmyBook = {
 export type SpecialRule = {
   name: string;
   rating?: any;
-}
+};
 
 export type SpecialRuleDefinition = {
   id: string;

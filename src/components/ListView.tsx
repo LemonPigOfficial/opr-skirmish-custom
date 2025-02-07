@@ -33,6 +33,9 @@ export default function ListView() {
 
 function UnitView({ unit }: { unit: Unit }) {
   const tough = unit.rules.find((x) => x.name === "Tough");
+  const upgradeRules = unit.selectedUpgrades
+    .flatMap((x) => x.option.gains)
+    .filter((x) => x.type === "ArmyBookRule");
 
   return (
     <Card sx={{ mb: 2 }}>
@@ -57,6 +60,9 @@ function UnitView({ unit }: { unit: Unit }) {
               {orderBy(unit.loadout, "type", "desc").map((x, i) => (
                 <LoadoutItemDisplay key={i} entry={x} />
               ))}
+              {upgradeRules.map((x, i) => (
+                <LoadoutItemDisplay key={i} entry={x} />
+              ))}
             </Stack>
           </Stack>
         </AccordionDetails>
@@ -68,6 +74,10 @@ function UnitView({ unit }: { unit: Unit }) {
 function LoadoutItemDisplay({ entry }: { entry: LoadoutEntry }) {
   if (entry.type === "ArmyBookWeapon") {
     return <WeaponDisplay entry={entry} />;
+  }
+
+  if (entry.type === "ArmyBookRule") {
+    return <RuleList specialRules={[entry]} />;
   }
 
   if (entry.type === "ArmyBookItem") {
