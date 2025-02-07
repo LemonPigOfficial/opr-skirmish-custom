@@ -12,7 +12,13 @@ interface RuleListProps {
 
 export default function RuleList({ unit, specialRules }: RuleListProps) {
   const { rules, listResponse } = useAppStore(useShallow((state) => state));
-  const ruleDefinitions = rules.concat(listResponse?.specialRules ?? []);
+  const ruleDefinitions = rules.concat(listResponse?.specialRules ?? []).map((x) => ({
+    ...x,
+    description: x.description.replace(
+      /take(s)? (\d+) hits/,
+      (_, ...grps) => `take${grps[0] || ""} ${parseInt(grps[1]) * 3} hits`
+    ),
+  }));
 
   if (!specialRules || specialRules.length === 0) return null;
 
