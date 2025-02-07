@@ -40,7 +40,8 @@ export type UpgradeOption = {
 };
 
 export type ArmyBook = {
-
+  uid: string;
+  spells: { name: string; effect: string; threshold: number; }[];
 };
 
 export type SpecialRule = {

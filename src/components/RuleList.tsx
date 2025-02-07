@@ -4,6 +4,7 @@ import { groupBy, sumBy } from "lodash";
 import { Fragment } from "react";
 import { useShallow } from "zustand/shallow";
 import RuleItem from "./RuleItem";
+import { transformRuleText } from "@/services/helpers";
 
 interface RuleListProps {
   unit?: { size: number };
@@ -14,10 +15,7 @@ export default function RuleList({ unit, specialRules }: RuleListProps) {
   const { rules, listResponse } = useAppStore(useShallow((state) => state));
   const ruleDefinitions = rules.concat(listResponse?.specialRules ?? []).map((x) => ({
     ...x,
-    description: x.description.replace(
-      /take(s)? (\d+) hits/,
-      (_, ...grps) => `take${grps[0] || ""} ${parseInt(grps[1]) * 3} hits`
-    ),
+    description: transformRuleText(x.description),
   }));
 
   if (!specialRules || specialRules.length === 0) return null;

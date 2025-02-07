@@ -9,6 +9,9 @@ import { useShallow } from "zustand/shallow";
 
 //const tempUrl = "https://army-forge.onepagerules.com/share?id=tl69Ujmdz4LR&name=Heralds_of%20the%20Apocalypse";
 
+// VU With caster
+// https://army-forge.onepagerules.com/share?id=t9ZC3D3A-wwH&name=Vampiric_Undead
+
 const tempUrl = "https://army-forge.onepagerules.com/share?id=wwcohMRXcpNS&name=Eternal_Dynasty";
 
 export default function ShareListLoader() {

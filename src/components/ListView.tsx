@@ -16,6 +16,7 @@ import { orderBy } from "lodash";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import Icon from "@mdi/react";
 import { mdiShield, mdiWater, mdiSword } from "@mdi/js";
+import { transformRuleText } from "@/services/helpers";
 
 export default function ListView() {
   const { listResponse: list } = useAppStore(useShallow((state) => state));
@@ -32,10 +33,18 @@ export default function ListView() {
 }
 
 function UnitView({ unit }: { unit: Unit }) {
+  const armyBooks = useAppStore(useShallow((state) => state.armyBooks));
+  const armyBook = armyBooks.find((x) => x.uid === unit.armyId);
   const tough = unit.rules.find((x) => x.name === "Tough");
   const upgradeRules = unit.selectedUpgrades
     .flatMap((x) => x.option.gains)
     .filter((x) => x.type === "ArmyBookRule");
+  const isCaster = unit.rules
+    .concat(upgradeRules)
+    .concat(unit.loadout.flatMap((x) => x.content || x).filter((x) => x.type === "ArmyBookRule"))
+    .some((x) => x.name === "Caster");
+
+  const spells = isCaster && armyBook?.spells;
 
   return (
     <Card sx={{ mb: 2 }}>
@@ -65,6 +74,18 @@ function UnitView({ unit }: { unit: Unit }) {
               ))}
             </Stack>
           </Stack>
+          {spells && (
+            <Box mt={2}>
+              {spells.map((x, i) => (
+                <Typography key={i} variant="body2">
+                  <span style={{ fontWeight: "bold" }}>
+                    {x.name} ({x.threshold}):{" "}
+                  </span>{" "}
+                  {transformRuleText(x.effect)}
+                </Typography>
+              ))}
+            </Box>
+          )}
         </AccordionDetails>
       </Accordion>
     </Card>
