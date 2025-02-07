@@ -12,6 +12,12 @@ export default function MultiplierSelector() {
         </Typography>
         <ButtonGroup>
           <Button
+            variant={store.attackMultiplier === 1 ? "contained" : "outlined"}
+            onClick={() => store.setAttackMultiplier(1)}
+          >
+            x1
+          </Button>
+          <Button
             variant={store.attackMultiplier === 2 ? "contained" : "outlined"}
             onClick={() => store.setAttackMultiplier(2)}
           >
@@ -31,6 +37,12 @@ export default function MultiplierSelector() {
           Tough Multiplier
         </Typography>
         <ButtonGroup>
+          <Button
+            variant={store.toughMultiplier === 1 ? "contained" : "outlined"}
+            onClick={() => store.setToughMultiplier(1)}
+          >
+            x1
+          </Button>
           <Button
             variant={store.toughMultiplier === 2 ? "contained" : "outlined"}
             onClick={() => store.setToughMultiplier(2)}
