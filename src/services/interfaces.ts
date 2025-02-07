@@ -18,6 +18,7 @@ export type Unit = {
   loadout: LoadoutEntry[];
   rules: SpecialRule[];
   selectedUpgrades: Upgrade[];
+  cost: number;
 };
 
 export type LoadoutEntry = {

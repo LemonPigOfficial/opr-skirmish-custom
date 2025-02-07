@@ -50,9 +50,10 @@ function UnitView({ unit }: { unit: Unit }) {
     <Card sx={{ mb: 2 }}>
       <Accordion defaultExpanded disableGutters>
         <AccordionSummary expandIcon={<KeyboardArrowUpIcon />}>
-          <Typography fontWeight="bold">
+          <Typography fontWeight="bold" flex={1}>
             {unit.name} [{unit.size}]
           </Typography>
+          <Typography>{unit.cost}pts</Typography>
         </AccordionSummary>
 
         <AccordionDetails sx={{ pt: 0 }}>
