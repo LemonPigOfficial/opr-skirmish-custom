@@ -15,6 +15,8 @@ export interface Store {
   setToughMultiplier: (value: number) => void;
   loading: boolean;
   setLoading: (value: boolean) => void;
+  halfRange: boolean;
+  setHalfRange: (value: boolean) => void;
 }
 
 export function createStore() {
@@ -31,6 +33,8 @@ export function createStore() {
     setToughMultiplier: (value: number) => set(() => ({ toughMultiplier: value }), undefined, "setToughMultiplier"),
     loading: false,
     setLoading: (value: boolean) => set(() => ({ loading: value }), undefined, "setLoading"),
+    halfRange: false,
+    setHalfRange: (value: boolean) => set(() => ({ halfRange: value }), undefined, "setHalfRange"),
   })));
 }
 

@@ -2,7 +2,7 @@ import { useAppStore } from "@/services/store";
 import { Button, ButtonGroup, Stack, Typography } from "@mui/material";
 import { useShallow } from "zustand/shallow";
 
-export default function MultiplierSelector() {
+export default function Settings() {
   const store = useAppStore(useShallow((state) => state));
   return (
     <Stack direction="row" spacing={2} mb={1}>
@@ -54,6 +54,26 @@ export default function MultiplierSelector() {
             onClick={() => store.setToughMultiplier(3)}
           >
             x3
+          </Button>
+        </ButtonGroup>
+      </Stack>
+
+      <Stack>
+        <Typography variant="body2" fontWeight="bold">
+          Ranges
+        </Typography>
+        <ButtonGroup>
+          <Button
+            variant={!store.halfRange ? "contained" : "outlined"}
+            onClick={() => store.setHalfRange(false)}
+          >
+            Full
+          </Button>
+          <Button
+            variant={store.halfRange ? "contained" : "outlined"}
+            onClick={() => store.setHalfRange(true)}
+          >
+            Half
           </Button>
         </ButtonGroup>
       </Stack>

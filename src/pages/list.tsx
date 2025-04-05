@@ -3,7 +3,7 @@ import Head from "next/head";
 import { CircularProgress, Container, ThemeProvider } from "@mui/material";
 import ListView from "@/components/ListView";
 import { theme } from "@/theme";
-import MultiplierSelector from "@/components/MultiplierSelector";
+import Settings from "@/components/Settings";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { load } from "@/services/LoadService";
@@ -34,7 +34,7 @@ export default function List() {
       </Head>
       <ThemeProvider theme={theme}>
         <Container sx={{ pt: 2 }}>
-          <MultiplierSelector />
+          <Settings />
           {store.loading && <CircularProgress />}
           <ListView />
         </Container>
