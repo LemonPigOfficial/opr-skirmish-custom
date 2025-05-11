@@ -33,11 +33,12 @@ export default function ListView() {
 }
 
 function UnitView({ unit }: { unit: Unit }) {
-  const { armyBooks, attackMultiplier, toughMultiplier } = useAppStore(
+  const { armyBooks, attackMultiplier, toughMultiplier, halfRange } = useAppStore(
     useShallow((state) => ({
       armyBooks: state.armyBooks,
       attackMultiplier: state.attackMultiplier,
       toughMultiplier: state.toughMultiplier,
+      halfRange: state.halfRange,
     }))
   );
   const armyBook = armyBooks.find((x) => x.uid === unit.armyId);
@@ -73,16 +74,8 @@ function UnitView({ unit }: { unit: Unit }) {
         <AccordionDetails sx={{ pt: 0 }}>
           <Stack spacing={1}>
             <Stack spacing={1} direction="row">
-              <StatTile
-                label="Qua"
-                value={`${unit.quality}+`}
-                icon={mdiSword}
-              />
-              <StatTile
-                label="Def"
-                value={`${unit.defense}+`}
-                icon={mdiShield}
-              />
+              <StatTile label="Qua" value={`${unit.quality}+`} icon={mdiSword} />
+              <StatTile label="Def" value={`${unit.defense}+`} icon={mdiShield} />
               <StatTile
                 label="Tough"
                 value={(tough * toughMultiplier || toughMultiplier).toString()}
@@ -91,10 +84,7 @@ function UnitView({ unit }: { unit: Unit }) {
             </Stack>
             <Stack>
               <Box mb={1}>
-                <RuleList
-                  unit={unit}
-                  specialRules={unit.rules.filter((x) => x.name !== "Tough")}
-                />
+                <RuleList unit={unit} specialRules={unit.rules.filter((x) => x.name !== "Tough")} />
               </Box>
               {orderBy(unit.loadout, "type", "desc").map((x, i) => (
                 <LoadoutItemDisplay key={i} entry={x} />
@@ -111,7 +101,7 @@ function UnitView({ unit }: { unit: Unit }) {
                   <span style={{ fontWeight: "bold" }}>
                     {x.name} ({x.threshold}):{" "}
                   </span>{" "}
-                  {transformRuleText(x.effect, attackMultiplier)}
+                  {transformRuleText(x.effect, attackMultiplier, halfRange)}
                 </Typography>
               ))}
             </Box>
@@ -155,8 +145,8 @@ function WeaponDisplay({ entry }: { entry: LoadoutEntry }) {
   const hasRules = entry.specialRules?.length > 0;
   return (
     <Typography>
-      <Typography variant="caption">{entry.count || 1}x</Typography>{" "}
-      {entry.name} ({entry.range > 0 && `${entry.range * (halfRange ? 0.5 : 1)}", `}A
+      <Typography variant="caption">{entry.count || 1}x</Typography> {entry.name} (
+      {entry.range > 0 && `${entry.range * (halfRange ? 0.5 : 1)}", `}A
       {entry.attacks * attackMultiplier}
       {hasRules && ", "}
       <RuleList specialRules={entry.specialRules} />)
@@ -164,15 +154,7 @@ function WeaponDisplay({ entry }: { entry: LoadoutEntry }) {
   );
 }
 
-function StatTile({
-  label,
-  value,
-  icon,
-}: {
-  label: string;
-  value: string;
-  icon: any;
-}) {
+function StatTile({ label, value, icon }: { label: string; value: string; icon: any }) {
   return (
     <div
       style={{
