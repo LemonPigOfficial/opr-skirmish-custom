@@ -58,10 +58,64 @@ function UnitView({ unit }: { unit: Unit }) {
     .concat(upgradeRules)
     .concat(loadoutRules)
     .some((x) => x.name === "Caster");
+	
+  const isHero = unit.rules
+    .concat(upgradeRules)
+    .concat(loadoutRules)
+    .some((x) => x.name === "Hero");
 
   const spells = isCaster && armyBook?.spells;
-
+if isHero
   return (
+    <Card sx={{ mb: 2 }}>
+      <Accordion defaultExpanded disableGutters>
+        <AccordionSummary expandIcon={<KeyboardArrowUpIcon />}>
+          <Typography fontWeight="bold" flex={1}>
+            {unit.name} <span style={{ fontWeight: 400 }}>[{unit.size}]</span>
+          </Typography>
+          <Typography>{unit.cost}pts</Typography>
+        </AccordionSummary>
+
+        <AccordionDetails sx={{ pt: 0 }}>
+          <Stack spacing={1}>
+            <Stack spacing={1} direction="row">
+              <StatTile label="Qua" value={`${unit.quality}+`} icon={mdiSword} />
+              <StatTile label="Def" value={`${unit.defense}+`} icon={mdiShield} />
+              <StatTile
+                label="Tough"
+                value={(tough).toString()}
+                icon={mdiWater}
+              />
+            </Stack>
+            <Stack>
+              <Box mb={1}>
+                <RuleList unit={unit} specialRules={unit.rules.filter((x) => x.name !== "Tough")} />
+              </Box>
+              {orderBy(unit.loadout, "type", "desc").map((x, i) => (
+                <LoadoutItemDisplay key={i} entry={x} />
+              ))}
+              {upgradeRules.map((x, i) => (
+                <LoadoutItemDisplay key={i} entry={x} />
+              ))}
+            </Stack>
+          </Stack>
+          {spells && (
+            <Box mt={2}>
+              {spells.map((x, i) => (
+                <Typography key={i} variant="body2">
+                  <span style={{ fontWeight: "bold" }}>
+                    {x.name} ({x.threshold}):{" "}
+                  </span>{" "}
+                  {transformRuleText(x.effect, attackMultiplier, halfRange)}
+                </Typography>
+              ))}
+            </Box>
+          )}
+        </AccordionDetails>
+      </Accordion>
+    </Card>
+  );
+  else return (
     <Card sx={{ mb: 2 }}>
       <Accordion defaultExpanded disableGutters>
         <AccordionSummary expandIcon={<KeyboardArrowUpIcon />}>
