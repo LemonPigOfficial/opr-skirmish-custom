@@ -12,18 +12,6 @@ export default function Settings() {
         </Typography>
         <ButtonGroup>
           <Button
-            variant={store.toughMultiplier === 1 ? "contained" : "outlined"}
-            onClick={() => store.setToughMultiplier(1)}
-          >
-            x1
-          </Button>
-          <Button
-            variant={store.toughMultiplier === 2 ? "contained" : "outlined"}
-            onClick={() => store.setToughMultiplier(2)}
-          >
-            x2
-          </Button>
-          <Button
             variant={store.toughMultiplier === 3 ? "contained" : "outlined"}
             onClick={() => store.setToughMultiplier(3)}
           >
@@ -34,20 +22,20 @@ export default function Settings() {
 
       <Stack>
         <Typography variant="body2" fontWeight="bold">
-          Ranges
+          Table
         </Typography>
         <ButtonGroup>
           <Button
             variant={!store.halfRange ? "contained" : "outlined"}
             onClick={() => store.setHalfRange(false)}
           >
-            Full
+            Full Size
           </Button>
           <Button
             variant={store.halfRange ? "contained" : "outlined"}
             onClick={() => store.setHalfRange(true)}
           >
-            Half
+            KT Size
           </Button>
         </ButtonGroup>
       </Stack>
