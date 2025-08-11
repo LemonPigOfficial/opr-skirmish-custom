@@ -65,7 +65,7 @@ function UnitView({ unit }: { unit: Unit }) {
     .some((x) => x.name === "Hero");
 
   const spells = isCaster && armyBook?.spells;
-if isHero {
+if (isHero) {
   return (
     <Card sx={{ mb: 2 }}>
       <Accordion defaultExpanded disableGutters>
